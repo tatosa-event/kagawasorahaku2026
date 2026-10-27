@@ -44,7 +44,7 @@
     }
 
     /* タイ国旗カラーのトップライン */
-   .banner {
+    .banner {
       height: 18px;
       width: 100%;
       background: linear-gradient(
@@ -58,7 +58,7 @@
       border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     }
 
-    /* ヒーロービジュアルエリア（重なり防止済み） */
+    /* ヒーロービジュアルエリア */
     .hero-visual {
       background: linear-gradient(180deg, #0b2e78 0%, #0f4c81 100%);
       padding: 20px 16px 18px;
@@ -88,7 +88,7 @@
       display: block;
     }
 
-    /* 高松 ➔ バンコク バッジ（絶対に被らないFlexbox配置） */
+    /* 高松 ➔ バンコク バッジ */
     .route-badges {
       display: flex;
       justify-content: center;
@@ -137,11 +137,81 @@
       font-weight: bold;
     }
 
-    /* メインコンテンツ枠 */
     .content-body {
       padding: 22px 20px 24px;
     }
 
+    /* ==============================
+       アンケート画面用のスタイル
+       ============================== */
+    .survey-title {
+      color: var(--primary);
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+    
+    .survey-desc {
+      font-size: 0.85rem;
+      color: #4a5568;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+      background: #f8fafc;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e0;
+      font-size: 0.95rem;
+      background: white;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin-top: 3px;
+      margin-right: 8px;
+      transform: scale(1.2);
+    }
+
+    .error-msg {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    /* クイズ画面系スタイル */
     .progress-bar-bg {
       background: #e2e8f0;
       height: 8px;
@@ -149,14 +219,12 @@
       overflow: hidden;
       margin-bottom: 12px;
     }
-
     .progress-bar-fill {
       background: linear-gradient(90deg, var(--gold-dark), var(--accent));
       height: 100%;
       width: 0%;
       transition: width 0.3s ease;
     }
-
     .progress-text {
       font-size: 0.85rem;
       color: #718096;
@@ -165,7 +233,6 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .sound-toggle {
       background: #edf2f7;
       border: none;
@@ -176,7 +243,6 @@
       cursor: pointer;
       color: var(--text);
     }
-
     .question {
       font-size: 1.05rem;
       font-weight: bold;
@@ -184,7 +250,6 @@
       margin-bottom: 14px;
       text-align: left;
     }
-
     .image-box {
       margin-bottom: 16px;
       display: none;
@@ -193,19 +258,16 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       background: #edf2f7;
     }
-
     .image-box img {
       width: 100%;
       max-height: 300px;
       object-fit: cover;
       display: block;
     }
-
     .audio-box {
       margin-bottom: 18px;
       display: none;
     }
-
     .btn-audio {
       background: linear-gradient(135deg, #ff9900, #ff5500);
       color: white;
@@ -220,18 +282,15 @@
       align-items: center;
       gap: 8px;
     }
-
     .btn-audio:active {
       transform: scale(0.97);
     }
-
     .options {
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-bottom: 18px;
     }
-
     .btn-option {
       background: #f7fafc;
       border: 2px solid #e2e8f0;
@@ -244,19 +303,16 @@
       text-align: left;
       transition: all 0.2s;
     }
-
     .btn-option.correct {
       background-color: #e6fffa;
       border-color: #38b2ac;
       color: #234e52;
     }
-
     .btn-option.wrong {
       background-color: #fff5f5;
       border-color: #e53e3e;
       color: #742a2a;
     }
-
     .explanation-box {
       background: #fffaf0;
       border-left: 4px solid var(--gold-dark);
@@ -268,7 +324,6 @@
       margin-bottom: 16px;
       display: none;
     }
-
     .btn-primary {
       background: linear-gradient(90deg, var(--primary), #0044cc);
       color: white;
@@ -282,7 +337,7 @@
       box-shadow: 0 4px 14px rgba(0, 36, 125, 0.25);
     }
 
-    /* 結果画面：正答数の超特大表示 */
+    /* 結果画面 */
     .score-display-box {
       background: #f8fafc;
       border: 2px solid #e2e8f0;
@@ -290,28 +345,24 @@
       padding: 16px 12px;
       margin: 10px 0 16px;
     }
-
     .score-label {
       font-size: 0.95rem;
       font-weight: bold;
       color: #4a5568;
       margin-bottom: 2px;
     }
-
     .score-big-number {
       font-size: 3.6rem;
       font-weight: 900;
       color: var(--accent);
       line-height: 1.1;
     }
-
     .score-big-number span {
       font-size: 1.35rem;
       color: var(--primary);
       font-weight: bold;
       margin-left: 6px;
     }
-
     .rank-badge {
       display: inline-block;
       padding: 8px 22px;
@@ -322,19 +373,15 @@
       margin-top: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
-
     .rank-s { background: linear-gradient(135deg, #d4af37, #ff9900); }
     .rank-a { background: linear-gradient(135deg, #008080, #38b2ac); }
     .rank-b { background: linear-gradient(135deg, #00247d, #3182ce); }
-
     .prize-desc {
       font-size: 0.92rem;
       font-weight: bold;
       color: var(--text);
       margin-top: 8px;
     }
-
-    /* プレゼント引換券（1人1回制限用） */
     .coupon-card {
       border: 3px dashed var(--gold-dark);
       background: linear-gradient(135deg, #fffdf7 0%, #fff5d6 100%);
@@ -342,13 +389,11 @@
       padding: 16px;
       margin: 14px 0;
     }
-
     .coupon-card.used {
       background: #edf2f7;
       border-color: #cbd5e0;
       color: #718096;
     }
-
     .live-clock {
       font-size: 0.85rem;
       font-family: monospace;
@@ -360,7 +405,6 @@
       display: inline-block;
       margin-bottom: 8px;
     }
-
     .staff-check-banner {
       background: #ffffff;
       border: 2px solid var(--primary);
@@ -371,7 +415,6 @@
       font-weight: 900;
       color: var(--primary);
     }
-
     .btn-redeem {
       background: var(--accent);
       color: white;
@@ -384,12 +427,10 @@
       margin-top: 10px;
       width: 100%;
     }
-
     .btn-redeem:disabled {
       background: #a0aec0;
       cursor: not-allowed;
     }
-
     .reset-secret {
       margin-top: 18px;
       font-size: 0.7rem;
@@ -409,7 +450,6 @@
       <div class="hero-sub">✈️ かがわそら博 × タイ国政府観光庁</div>
       <div class="hero-title">Amazing Thailand クイズ</div>
 
-      <!-- ワット・アルン＆飛行機イラスト -->
       <svg class="temple-svg" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="100" cy="65" r="42" fill="#FFD166" fill-opacity="0.25"/>
         <path d="M25 85 Q 95 10 165 40" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
@@ -422,7 +462,6 @@
         <rect x="35" y="104" width="130" height="5" rx="2.5" fill="#38B2AC"/>
       </svg>
 
-      <!-- 横並びで絶対に重ならないバッジ -->
       <div class="route-badges">
         <span class="badge-tak">🛫 高松(TAK)</span>
         <span class="route-arrow">➔ ✈️ ➔</span>
@@ -440,7 +479,58 @@
           たくさんの問題から<strong>毎回ランダムで5問</strong>出題されるよ！<br>
           <span style="color: var(--accent); font-weight: bold;">正解数に応じて豪華ノベルティ（お1人様1回限り）</span>をプレゼント🎁
         </p>
-        <button class="btn-primary" onclick="startQuiz()">🔊 クイズをはじめる（全5問）</button>
+        <button class="btn-primary" onclick="goToSurvey()">🔊 クイズに参加する</button>
+      </div>
+
+      <!-- アンケート画面 -->
+      <div id="survey-screen" style="display: none;">
+        <h2 class="survey-title">📝 クイズの前に...</h2>
+        <p class="survey-desc">3問の簡単なアンケートにご協力ください！</p>
+
+        <div class="error-msg" id="survey-error">※必須項目（Q1・Q2）を選択してください</div>
+
+        <div class="form-group">
+          <label class="form-label">Q1. あなたの年代は？ <span style="color:red">*</span></label>
+          <select id="survey-age" class="form-select">
+            <option value="">選択してください</option>
+            <option value="10代以下">10代以下</option>
+            <option value="20代">20代</option>
+            <option value="30代">30代</option>
+            <option value="40代">40代</option>
+            <option value="50代">50代</option>
+            <option value="60代以上">60代以上</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Q2. タイに行ったことはありますか？<br>
+            <span style="font-size: 0.85em; font-weight: normal; color: #4a5568;">（※「ある」が複数ある場合は、最も多いものを選んでください）</span>
+            <span style="color:red">*</span>
+          </label>
+          <select id="survey-visit" class="form-select">
+            <option value="">選択してください</option>
+            <option value="行ったことがない">行ったことがない</option>
+            <option value="ある（関空などの直行便）">ある（関空などの直行便で）</option>
+            <option value="ある（羽田・成田などの国内乗継）">ある（羽田・成田などの国内乗り継ぎで）</option>
+            <option value="ある（ソウル・台北などの第三国乗継）">ある（ソウル・台北などの第三国乗り継ぎで）</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Q3. タイで体験してみたいことは？（複数可）</label>
+          <div class="checkbox-group" id="survey-experiences">
+            <label class="checkbox-label"><input type="checkbox" value="本場のタイ料理・屋台グルメ"> 本場のタイ料理・屋台グルメ</label>
+            <label class="checkbox-label"><input type="checkbox" value="美しい寺院・世界遺産巡り"> 美しい寺院・世界遺産巡り</label>
+            <label class="checkbox-label"><input type="checkbox" value="タイ古式マッサージ・スパ"> タイ古式マッサージ・スパ</label>
+            <label class="checkbox-label"><input type="checkbox" value="ビーチリゾート"> ビーチリゾート</label>
+            <label class="checkbox-label"><input type="checkbox" value="スポーツ（ゴルフ・ダイビングなど）"> スポーツ（ゴルフ・ダイビングなど）</label>
+            <label class="checkbox-label"><input type="checkbox" value="象乗り・大自然アクティビティ"> 象乗り・大自然アクティビティ</label>
+            <label class="checkbox-label"><input type="checkbox" value="絶景カフェ・最新フォトスポット"> 絶景カフェ・最新フォトスポット</label>
+            <label class="checkbox-label"><input type="checkbox" value="ショッピング・ナイトマーケット"> ショッピング・ナイトマーケット</label>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="btn-submit-survey" onclick="submitSurveyAndStartQuiz()">回答してクイズへ進む ➔</button>
       </div>
 
       <!-- クイズ画面 -->
@@ -475,7 +565,6 @@
       <div id="result-screen" style="display: none;">
         <h2 style="color: var(--primary); font-size: 1.25rem;">🎉 クイズ結果発表 🎉</h2>
 
-        <!-- 見やすい特大正答数＆賞ランクエリア -->
         <div class="score-display-box">
           <div class="score-label" id="score-total-label">全 5 問中</div>
           <div class="score-big-number">
@@ -485,7 +574,6 @@
           <div class="prize-desc" id="prize-desc">全問正解おめでとうございます！</div>
         </div>
 
-        <!-- お1人様1回限定の引換券 -->
         <div class="coupon-card" id="coupon-card">
           <div class="live-clock" id="live-clock">現在時刻: --:--:--</div>
           <h3 style="font-size: 1rem; margin-bottom: 4px;">🎁 ノベルティ引換券（初回結果）</h3>
@@ -502,7 +590,6 @@
 
         <button class="btn-primary" style="background: var(--teal); margin-top: 8px;" onclick="restartPractice()">もう一度別の問題で遊ぶ（練習モード）</button>
         
-        <!-- スタッフ用隠しリセット（5回連続タップで初期化） -->
         <div class="reset-secret" onclick="secretReset()">タイ国政府観光庁 | Tourism Authority of Thailand</div>
       </div>
     </div>
@@ -519,7 +606,14 @@
     // =========================================================================
     const QUESTIONS_PER_GAME = 5;
 
-    // デフォルトのクイズプール（スプレッドシート未設定時でもランダム抽選できるよう7問収録）
+    // =========================================================================
+    // 【設定3】アンケート送信用GASの「ウェブアプリURL」をここに貼る
+    // （※別のアカウント等でGASを作成した場合、ここにURLを入れるとデータが送信されます）
+    // （※空欄のままでも、クイズ機能自体は問題なく動きます）
+    // =========================================================================
+    const GAS_WEB_APP_URL = "";
+
+
     const defaultQuizPool = [
       {
         question: "高松空港から台北経由（チャイナエアライン・スターラックス航空）でバンコクへ行く場合、預けたスーツケースはどうなる？",
@@ -579,7 +673,6 @@
       }
     ];
 
-    // 正答数に応じた賞ランク設定
     function getPrizeRank(correctCount, totalCount) {
       if (correctCount === totalCount) {
         return {
@@ -605,12 +698,13 @@
       }
     }
 
-    let allQuizPool = []; // スプレッドシートの全問題
-    let quizData = [];    // 今回ランダムに選ばれた5問
+    let allQuizPool = [];
+    let quizData = [];
     let currentIndex = 0;
     let score = 0;
     let soundEnabled = true;
     let audioCtx = null;
+    let surveyData = {};
 
     const STORAGE_KEY_PLAYED = "tat_soratabi_played_2026";
     const STORAGE_KEY_REDEEMED = "tat_soratabi_redeemed_2026";
@@ -648,7 +742,6 @@
       return result;
     }
 
-    // スプレッドシートから全問題のプールを読み込む
     async function loadQuizPool() {
       if (!SHEET_CSV_URL) {
         allQuizPool = [...defaultQuizPool];
@@ -676,7 +769,6 @@
       }
     }
 
-    // 全問題の中からランダムに5問（QUESTIONS_PER_GAME）を抽出する関数
     function pickRandomQuestions(count = QUESTIONS_PER_GAME) {
       const shuffled = [...allQuizPool];
       for (let i = shuffled.length - 1; i > 0; i--) {
@@ -746,11 +838,72 @@
       }
     }
 
-    function startQuiz() {
-      initAudio();
-      pickRandomQuestions(QUESTIONS_PER_GAME); // 毎回ランダムに5問選ぶ！
-      document.getElementById("hero-visual").style.display = "none"; // 問題画面ではスッキリ表示
+    // ==========================================
+    // 画面遷移ロジック（トップ ➔ アンケート ➔ クイズ）
+    // ==========================================
+    function goToSurvey() {
+      // 練習モード（2回目以降）の場合はアンケートをスキップして直接クイズへ
+      if (localStorage.getItem(STORAGE_KEY_PLAYED) === "true") {
+        startQuizDirectly();
+        return;
+      }
       document.getElementById("start-screen").style.display = "none";
+      document.getElementById("survey-screen").style.display = "block";
+    }
+
+    function submitSurveyAndStartQuiz() {
+      const age = document.getElementById("survey-age").value;
+      const visit = document.getElementById("survey-visit").value;
+      const errEl = document.getElementById("survey-error");
+
+      // 必須チェック
+      if (!age || !visit) {
+        errEl.style.display = "block";
+        return;
+      }
+      errEl.style.display = "none";
+
+      const expBoxes = document.querySelectorAll('#survey-experiences input[type="checkbox"]:checked');
+      const experiences = Array.from(expBoxes).map(cb => cb.value).join(", ");
+
+      surveyData = {
+        age: age,
+        visitHistory: visit,
+        desiredExperiences: experiences
+      };
+
+      const btn = document.getElementById("btn-submit-survey");
+      btn.textContent = "送信中...";
+      btn.disabled = true;
+
+      // GASへの送信処理（URLが設定されている場合のみ）
+      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.startsWith("http")) {
+        fetch(GAS_WEB_APP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(surveyData)
+        })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("survey-screen").style.display = "none";
+          startQuizDirectly();
+        })
+        .catch(err => {
+          // エラーが起きてもユーザーを待たせずにクイズへ進める
+          document.getElementById("survey-screen").style.display = "none";
+          startQuizDirectly();
+        });
+      } else {
+        // GAS URLが設定されていない場合はそのままクイズへ進む
+        document.getElementById("survey-screen").style.display = "none";
+        startQuizDirectly();
+      }
+    }
+
+    function startQuizDirectly() {
+      initAudio();
+      pickRandomQuestions(QUESTIONS_PER_GAME); 
+      document.getElementById("hero-visual").style.display = "none"; 
       document.getElementById("quiz-screen").style.display = "block";
       currentIndex = 0;
       score = 0;
@@ -885,7 +1038,7 @@
 
     function restartPractice() {
       document.getElementById("result-screen").style.display = "none";
-      startQuiz();
+      startQuizDirectly();
     }
 
     function startClock() {
