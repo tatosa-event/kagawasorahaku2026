@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高松空港発！Amazing Thailand クイズ</title>
+  <style>
+    :root {
+      --primary: #00247d;
+      --accent: #ed1c24;
+      --gold: #f5b041;
+      --gold-dark: #d4af37;
+      --teal: #008080;
+      --card: #ffffff;
+      --text: #2d3748;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Meiryo", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #001f60 0%, #004d7a 55%, #008793 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .quiz-card {
+      background: var(--card);
+      width: 100%;
+      max-width: 440px;
+      border-radius: 22px;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+    }
+
+    /* タイ国旗カラーのトップライン */
+   .banner {
+      height: 18px;
+      width: 100%;
+      background: linear-gradient(
+        180deg,
+        #ed1c24 0%, #ed1c24 16.6%,
+        #ffffff 16.6%, #ffffff 33.3%,
+        #241d4f 33.3%, #241d4f 66.6%,
+        #ffffff 66.6%, #ffffff 83.3%,
+        #ed1c24 83.3%, #ed1c24 100%
+      );
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    /* ヒーロービジュアルエリア（重なり防止済み） */
+    .hero-visual {
+      background: linear-gradient(180deg, #0b2e78 0%, #0f4c81 100%);
+      padding: 20px 16px 18px;
+      color: white;
+      position: relative;
+    }
+
+    .hero-sub {
+      font-size: 0.78rem;
+      color: #ffd166;
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+
+    .hero-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .temple-svg {
+      width: 160px;
+      height: 105px;
+      margin: 0 auto 10px;
+      display: block;
+    }
+
+    /* 高松 ➔ バンコク バッジ（絶対に被らないFlexbox配置） */
+    .route-badges {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0 12px;
+    }
+
+    .badge-tak {
+      background: #ffffff;
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    .route-arrow {
+      color: #ffd166;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .badge-bkk {
+      background: #f5b041;
+      color: #1a202c;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    .tagline-pill {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 209, 102, 0.6);
+      color: #ffd166;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: bold;
+    }
+
+    /* メインコンテンツ枠 */
+    .content-body {
+      padding: 22px 20px 24px;
+    }
+
+    .progress-bar-bg {
+      background: #e2e8f0;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--gold-dark), var(--accent));
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: 0.85rem;
+      color: #718096;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sound-toggle {
+      background: #edf2f7;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .question {
+      font-size: 1.05rem;
+      font-weight: bold;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .image-box {
+      margin-bottom: 16px;
+      display: none;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: #edf2f7;
+    }
+
+    .image-box img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .audio-box {
+      margin-bottom: 18px;
+      display: none;
+    }
+
+    .btn-audio {
+      background: linear-gradient(135deg, #ff9900, #ff5500);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-audio:active {
+      transform: scale(0.97);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .btn-option {
+      background: #f7fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .btn-option.correct {
+      background-color: #e6fffa;
+      border-color: #38b2ac;
+      color: #234e52;
+    }
+
+    .btn-option.wrong {
+      background-color: #fff5f5;
+      border-color: #e53e3e;
+      color: #742a2a;
+    }
+
+    .explanation-box {
+      background: #fffaf0;
+      border-left: 4px solid var(--gold-dark);
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      text-align: left;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--primary), #0044cc);
+      color: white;
+      border: none;
+      border-radius: 28px;
+      padding: 15px 28px;
+      font-size: 1.05rem;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 14px rgba(0, 36, 125, 0.25);
+    }
+
+    /* 結果画面：正答数の超特大表示 */
+    .score-display-box {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px 12px;
+      margin: 10px 0 16px;
+    }
+
+    .score-label {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #4a5568;
+      margin-bottom: 2px;
+    }
+
+    .score-big-number {
+      font-size: 3.6rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .score-big-number span {
+      font-size: 1.35rem;
+      color: var(--primary);
+      font-weight: bold;
+      margin-left: 6px;
+    }
+
+    .rank-badge {
+      display: inline-block;
+      padding: 8px 22px;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: white;
+      margin-top: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .rank-s { background: linear-gradient(135deg, #d4af37, #ff9900); }
+    .rank-a { background: linear-gradient(135deg, #008080, #38b2ac); }
+    .rank-b { background: linear-gradient(135deg, #00247d, #3182ce); }
+
+    .prize-desc {
+      font-size: 0.92rem;
+      font-weight: bold;
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    /* プレゼント引換券（1人1回制限用） */
+    .coupon-card {
+      border: 3px dashed var(--gold-dark);
+      background: linear-gradient(135deg, #fffdf7 0%, #fff5d6 100%);
+      border-radius: 16px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .coupon-card.used {
+      background: #edf2f7;
+      border-color: #cbd5e0;
+      color: #718096;
+    }
+
+    .live-clock {
+      font-size: 0.85rem;
+      font-family: monospace;
+      font-weight: bold;
+      color: #2d3748;
+      background: rgba(255,255,255,0.9);
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .staff-check-banner {
+      background: #ffffff;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      padding: 10px 8px;
+      margin: 8px 0;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .btn-redeem {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .btn-redeem:disabled {
+      background: #a0aec0;
+      cursor: not-allowed;
+    }
+
+    .reset-secret {
+      margin-top: 18px;
+      font-size: 0.7rem;
+      color: #cbd5e0;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-card">
+    <div class="banner"></div>
+
+    <!-- トップのヒーローイラスト＆重ならないルート表示 -->
+    <div class="hero-visual" id="hero-visual">
+      <div class="hero-sub">✈️ かがわそら博 × タイ国政府観光庁</div>
+      <div class="hero-title">Amazing Thailand クイズ</div>
+
+      <!-- ワット・アルン＆飛行機イラスト -->
+      <svg class="temple-svg" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="65" r="42" fill="#FFD166" fill-opacity="0.25"/>
+        <path d="M25 85 Q 95 10 165 40" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
+        <text x="158" y="44" font-size="18">✈️</text>
+        <polygon points="100,15 76,105 124,105" fill="#F5B041" stroke="#FFF" stroke-width="1.5"/>
+        <polygon points="62,48 48,105 76,105" fill="#E67E22" stroke="#FFF" stroke-width="1.5"/>
+        <polygon points="138,48 124,105 152,105" fill="#E67E22" stroke="#FFF" stroke-width="1.5"/>
+        <line x1="83" y1="65" x2="117" y2="65" stroke="#FFF" stroke-width="1.5"/>
+        <line x1="89" y1="42" x2="111" y2="42" stroke="#FFF" stroke-width="1.5"/>
+        <rect x="35" y="104" width="130" height="5" rx="2.5" fill="#38B2AC"/>
+      </svg>
+
+      <!-- 横並びで絶対に重ならないバッジ -->
+      <div class="route-badges">
+        <span class="badge-tak">🛫 高松(TAK)</span>
+        <span class="route-arrow">➔ ✈️ ➔</span>
+        <span class="badge-bkk">🐘 バンコク(BKK)</span>
+      </div>
+
+      <div class="tagline-pill">✨ 乗り継ぎでも手ぶらでラクラク！ ✨</div>
+    </div>
+
+    <div class="content-body">
+      <!-- スタート画面 -->
+      <div id="start-screen">
+        <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+          高松空港から乗り継ぎで気軽に行けるタイのヒミツなど、タイに関するクイズに答えよう！<br>
+          たくさんの問題から<strong>毎回ランダムで5問</strong>出題されるよ！<br>
+          <span style="color: var(--accent); font-weight: bold;">正解数に応じて豪華ノベルティ（お1人様1回限り）</span>をプレゼント🎁
+        </p>
+        <button class="btn-primary" onclick="startQuiz()">🔊 クイズをはじめる（全5問）</button>
+      </div>
+
+      <!-- クイズ画面 -->
+      <div id="quiz-screen" style="display: none;">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-text">
+          <span id="progress-label">第 1 問 / 5 問</span>
+          <button class="sound-toggle" id="sound-btn" onclick="toggleSound()">🔊 効果音 ON</button>
+        </div>
+
+        <div class="question" id="question-text">読み込み中...</div>
+
+        <div class="image-box" id="image-box">
+          <img id="quiz-image" src="" alt="クイズ画像" onerror="this.parentElement.style.display='none'">
+        </div>
+
+        <div class="audio-box" id="audio-box">
+          <button class="btn-audio" onclick="playQuestionAudio()">
+            🔊 タップして音を聴く
+          </button>
+          <audio id="quiz-audio"></audio>
+        </div>
+
+        <div class="options" id="options-container"></div>
+        <div class="explanation-box" id="explanation-text"></div>
+        <button class="btn-primary" id="next-btn" style="display: none;" onclick="nextQuestion()">次の問題へ ➔</button>
+      </div>
+
+      <!-- 結果＆引換券画面 -->
+      <div id="result-screen" style="display: none;">
+        <h2 style="color: var(--primary); font-size: 1.25rem;">🎉 クイズ結果発表 🎉</h2>
+
+        <!-- 見やすい特大正答数＆賞ランクエリア -->
+        <div class="score-display-box">
+          <div class="score-label" id="score-total-label">全 5 問中</div>
+          <div class="score-big-number">
+            <strong id="score-num">0</strong><span>問正解！</span>
+          </div>
+          <div class="rank-badge rank-s" id="rank-badge">👑 S賞 獲得！</div>
+          <div class="prize-desc" id="prize-desc">全問正解おめでとうございます！</div>
+        </div>
+
+        <!-- お1人様1回限定の引換券 -->
+        <div class="coupon-card" id="coupon-card">
+          <div class="live-clock" id="live-clock">現在時刻: --:--:--</div>
+          <h3 style="font-size: 1rem; margin-bottom: 4px;">🎁 ノベルティ引換券（初回結果）</h3>
+          
+          <div class="staff-check-banner" id="staff-check-banner">
+            【引換対象】 5問中 0問正解 ／ 参加賞
+          </div>
+
+          <p id="coupon-status-text" style="font-size: 0.85rem; line-height: 1.4;">
+            この画面をブースのスタッフにお見せください。<br>（※お1人様1回限り有効です）
+          </p>
+          <button class="btn-redeem" id="redeem-btn" onclick="redeemPrize()">【スタッフ専用】引換済みにする</button>
+        </div>
+
+        <button class="btn-primary" style="background: var(--teal); margin-top: 8px;" onclick="restartPractice()">もう一度別の問題で遊ぶ（練習モード）</button>
+        
+        <!-- スタッフ用隠しリセット（5回連続タップで初期化） -->
+        <div class="reset-secret" onclick="secretReset()">タイ国政府観光庁 | Tourism Authority of Thailand</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 【設定1】Googleスプレッドシートの「ウェブに公開（CSV）」URLをここに貼る
+    // =========================================================================
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwXvgkTyJqxQo7av5MawRYVQHdKgbZUzOTTh12JUveixQ28rGRi3tp7QQiTwPQfgFQlqK4lqxjDR0Z/pub?output=csv"; 
+
+    // =========================================================================
+    // 【設定2】1回のプレイでランダムに出題する問題数（5問）
+    // =========================================================================
+    const QUESTIONS_PER_GAME = 5;
+
+    // デフォルトのクイズプール（スプレッドシート未設定時でもランダム抽選できるよう7問収録）
+    const defaultQuizPool = [
+      {
+        question: "高松空港から台北経由（チャイナエアライン・スターラックス航空）でバンコクへ行く場合、預けたスーツケースはどうなる？",
+        options: ["バンコクまで自動スルーで手ぶら移動！", "台北で一度受け取って運び直す", "機内にすべて持ち込む"],
+        answer: 0,
+        explanation: "正解！高松で預けた荷物はバンコクまでスルー。台北での乗り継ぎ時間は手ぶらでタピオカや小籠包を楽しめます！",
+        audio: "",
+        image: ""
+      },
+      {
+        question: "【🔊音クイズ】ボタンをタップして声を聴いてね！このタイ語「サワディー・カー」はどういう意味？",
+        options: ["こんにちは（挨拶）", "おなかすいた", "おやすみなさい"],
+        answer: 0,
+        explanation: "正解！「サワディー」は朝から晩まで使える便利な挨拶です。女性は語尾に「カー」、男性は「クラップ」をつけます。",
+        audio: "TTS:สวัสดีค่ะ",
+        image: ""
+      },
+      {
+        question: "高松空港からソウル（仁川）や香港を経由してタイへ行く、若い世代に人気の旅のスタイルは？",
+        options: ["乗り継ぎ時間で韓国カフェや飲茶も楽しむ「2カ国周遊」", "空港から一歩も出ない修行旅", "船に乗り換えて行く旅"],
+        answer: 0,
+        explanation: "正解！高松から直行便があるソウルや香港を経由すれば、1回の旅行で2カ国楽しめるお得な旅になります！",
+        audio: "",
+        image: ""
+      },
+      {
+        question: "プリッとした海老と酸っぱ辛いスープが特徴の、世界三大スープにも数えられるタイ料理の名前は？",
+        options: ["カオマンガイ", "トムヤムクン", "ガパオライス"],
+        answer: 1,
+        explanation: "正解！「トム」は煮る、「ヤム」は混ぜる、「クン」はエビという意味。本場タイで食べるとハーブの香りが格別です！",
+        audio: "",
+        image: "tomyum.jpg"
+      },
+      {
+        question: "バンコクのチャオプラヤー川沿いにそびえ立つ、美しい陶器モザイクで飾られた「暁の寺」のタイ語名は？",
+        options: ["ワット・アルン", "ワット・ポー", "ワット・プラケオ"],
+        answer: 0,
+        explanation: "正解！夕暮れ時のシルエットや夜のライトアップも絶景で、タイ衣装をレンタルして記念写真を撮るのにも大人気のスポットです！",
+        audio: "",
+        image: "watarun.jpg"
+      },
+      {
+        question: "高松空港からJALやANAの国内線で羽田空港へ行き、そこからバンコクへ向かうルートのメリットは？",
+        options: ["日系航空会社の安心感＆羽田でゆったり食事や買い物ができる", "パスポートがいらない", "新幹線に乗り換える必要がある"],
+        answer: 0,
+        explanation: "正解！高松から羽田へ飛び、そのまま国際線に乗り継げるので、重い荷物を持って電車やバスで移動する必要がなくシニアや家族連れにも大人気です！",
+        audio: "",
+        image: ""
+      },
+      {
+        question: "【🔊音クイズ】ボタンをタップして声を聴いてね！タイ語で「コップン・カー」はどういう意味？",
+        options: ["ありがとう", "ごめんなさい", "おいしい"],
+        answer: 0,
+        explanation: "正解！感謝を伝える「コップン・カー（男性はコップン・クラップ）」は、旅行中に一番よく使う魔法の言葉です！",
+        audio: "TTS:ขอบคุณค่ะ",
+        image: ""
+      }
+    ];
+
+    // 正答数に応じた賞ランク設定
+    function getPrizeRank(correctCount, totalCount) {
+      if (correctCount === totalCount) {
+        return {
+          rankName: "👑 S賞（全問正解！）",
+          shortName: "S賞（特賞）",
+          badgeClass: "rank-s",
+          message: "パーフェクト！タイ旅マスター認定です✨"
+        };
+      } else if (correctCount >= Math.ceil(totalCount * 0.6)) {
+        return {
+          rankName: "🥈 A賞（優秀賞！）",
+          shortName: "A賞",
+          badgeClass: "rank-a",
+          message: "お見事！あともう少しで全問正解でした✨"
+        };
+      } else {
+        return {
+          rankName: "🎁 B賞（参加賞）",
+          shortName: "B賞（参加賞）",
+          badgeClass: "rank-b",
+          message: "ご参加ありがとうございます！タイの魅力を知っていただけましたか？"
+        };
+      }
+    }
+
+    let allQuizPool = []; // スプレッドシートの全問題
+    let quizData = [];    // 今回ランダムに選ばれた5問
+    let currentIndex = 0;
+    let score = 0;
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    const STORAGE_KEY_PLAYED = "tat_soratabi_played_2026";
+    const STORAGE_KEY_REDEEMED = "tat_soratabi_redeemed_2026";
+    const STORAGE_KEY_SCORE = "tat_soratabi_score_2026";
+    const STORAGE_KEY_TOTAL = "tat_soratabi_total_2026";
+
+    window.onload = async () => {
+      startClock();
+      await loadQuizPool();
+
+      if (localStorage.getItem(STORAGE_KEY_PLAYED) === "true") {
+        score = parseInt(localStorage.getItem(STORAGE_KEY_SCORE) || "0", 10);
+        const savedTotal = parseInt(localStorage.getItem(STORAGE_KEY_TOTAL) || QUESTIONS_PER_GAME.toString(), 10);
+        pickRandomQuestions(savedTotal);
+        showResults();
+      }
+    };
+
+    function parseCSVLine(line) {
+      const result = [];
+      let current = "";
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          result.push(current.trim());
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+      result.push(current.trim());
+      return result;
+    }
+
+    // スプレッドシートから全問題のプールを読み込む
+    async function loadQuizPool() {
+      if (!SHEET_CSV_URL) {
+        allQuizPool = [...defaultQuizPool];
+        return;
+      }
+      try {
+        const res = await fetch(SHEET_CSV_URL);
+        const csvText = await res.text();
+        const lines = csvText.trim().split(/\r?\n/);
+        const rows = lines.map(parseCSVLine);
+
+        allQuizPool = rows.slice(1).map(row => ({
+          question: row[0] || "",
+          options: [row[1] || "", row[2] || "", row[3] || ""],
+          answer: parseInt(row[4] || "0", 10),
+          explanation: row[5] || "",
+          audio: row[6] || "",
+          image: row[7] || ""
+        })).filter(q => q.question !== "");
+
+        if (allQuizPool.length === 0) allQuizPool = [...defaultQuizPool];
+      } catch (e) {
+        console.warn("シート読み込み失敗のためデフォルト問題を使用します", e);
+        allQuizPool = [...defaultQuizPool];
+      }
+    }
+
+    // 全問題の中からランダムに5問（QUESTIONS_PER_GAME）を抽出する関数
+    function pickRandomQuestions(count = QUESTIONS_PER_GAME) {
+      const shuffled = [...allQuizPool];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      quizData = shuffled.slice(0, Math.min(count, shuffled.length));
+    }
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playBeep(type) {
+      if (!soundEnabled) return;
+      initAudio();
+      const now = audioCtx.currentTime;
+
+      if (type === "correct") {
+        [660, 880].forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, now + idx * 0.14);
+          gain.gain.setValueAtTime(0.25, now + idx * 0.14);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.14 + 0.35);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + idx * 0.14);
+          osc.stop(now + idx * 0.14 + 0.35);
+        });
+      } else if (type === "wrong") {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(160, now);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById("sound-btn").textContent = soundEnabled ? "🔊 効果音 ON" : "🔇 効果音 OFF";
+    }
+
+    function playQuestionAudio() {
+      const currentQuiz = quizData[currentIndex];
+      if (!currentQuiz.audio) return;
+
+      if (currentQuiz.audio.startsWith("TTS:")) {
+        const text = currentQuiz.audio.replace("TTS:", "");
+        const uttr = new SpeechSynthesisUtterance(text);
+        uttr.lang = "th-TH";
+        uttr.rate = 0.9;
+        window.speechSynthesis.speak(uttr);
+      } else {
+        const audioEl = document.getElementById("quiz-audio");
+        audioEl.src = currentQuiz.audio;
+        audioEl.play();
+      }
+    }
+
+    function startQuiz() {
+      initAudio();
+      pickRandomQuestions(QUESTIONS_PER_GAME); // 毎回ランダムに5問選ぶ！
+      document.getElementById("hero-visual").style.display = "none"; // 問題画面ではスッキリ表示
+      document.getElementById("start-screen").style.display = "none";
+      document.getElementById("quiz-screen").style.display = "block";
+      currentIndex = 0;
+      score = 0;
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const currentQuiz = quizData[currentIndex];
+      document.getElementById("progress-label").textContent = `第 ${currentIndex + 1} 問 / ${quizData.length} 問`;
+      document.getElementById("progress-fill").style.width = `${((currentIndex) / quizData.length) * 100}%`;
+      document.getElementById("question-text").textContent = currentQuiz.question;
+      document.getElementById("explanation-text").style.display = "none";
+      document.getElementById("next-btn").style.display = "none";
+
+      const imageBox = document.getElementById("image-box");
+      const quizImage = document.getElementById("quiz-image");
+      if (currentQuiz.image) {
+        quizImage.src = currentQuiz.image;
+        imageBox.style.display = "block";
+      } else {
+        quizImage.src = "";
+        imageBox.style.display = "none";
+      }
+
+      const audioBox = document.getElementById("audio-box");
+      audioBox.style.display = currentQuiz.audio ? "block" : "none";
+
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+      currentQuiz.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "btn-option";
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(idx);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedIndex) {
+      const currentQuiz = quizData[currentIndex];
+      const buttons = document.getElementById("options-container").children;
+
+      for (let btn of buttons) {
+        btn.disabled = true;
+      }
+
+      if (selectedIndex === currentQuiz.answer) {
+        buttons[selectedIndex].classList.add("correct");
+        score++;
+        playBeep("correct");
+      } else {
+        buttons[selectedIndex].classList.add("wrong");
+        buttons[currentQuiz.answer].classList.add("correct");
+        playBeep("wrong");
+      }
+
+      const expEl = document.getElementById("explanation-text");
+      expEl.textContent = currentQuiz.explanation;
+      expEl.style.display = "block";
+      document.getElementById("next-btn").style.display = "block";
+      document.getElementById("progress-fill").style.width = `${((currentIndex + 1) / quizData.length) * 100}%`;
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex < quizData.length) {
+        renderQuestion();
+      } else {
+        if (localStorage.getItem(STORAGE_KEY_PLAYED) !== "true") {
+          localStorage.setItem(STORAGE_KEY_PLAYED, "true");
+          localStorage.setItem(STORAGE_KEY_SCORE, score.toString());
+          localStorage.setItem(STORAGE_KEY_TOTAL, quizData.length.toString());
+        }
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById("hero-visual").style.display = "none";
+      document.getElementById("start-screen").style.display = "none";
+      document.getElementById("quiz-screen").style.display = "none";
+      document.getElementById("result-screen").style.display = "block";
+
+      const total = quizData.length || QUESTIONS_PER_GAME;
+      const currentRank = getPrizeRank(score, total);
+
+      document.getElementById("score-total-label").textContent = `全 ${total} 問中`;
+      document.getElementById("score-num").textContent = score;
+
+      const badgeEl = document.getElementById("rank-badge");
+      badgeEl.textContent = currentRank.rankName;
+      badgeEl.className = `rank-badge ${currentRank.badgeClass}`;
+      document.getElementById("prize-desc").textContent = currentRank.message;
+
+      const initialScore = parseInt(localStorage.getItem(STORAGE_KEY_SCORE) || score.toString(), 10);
+      const initialTotal = parseInt(localStorage.getItem(STORAGE_KEY_TOTAL) || total.toString(), 10);
+      const initialRank = getPrizeRank(initialScore, initialTotal);
+
+      document.getElementById("staff-check-banner").textContent =
+        `【引換対象】 ${initialTotal}問中 ${initialScore}問正解 ／ ${initialRank.shortName}`;
+
+      updateCouponUI();
+    }
+
+    function redeemPrize() {
+      if (localStorage.getItem(STORAGE_KEY_REDEEMED) === "true") return;
+      const ok = confirm("【スタッフ確認】\nノベルティをお渡しし、この引換券を「使用済み」にしますか？\n（※一度押すと元に戻せません）");
+      if (ok) {
+        localStorage.setItem(STORAGE_KEY_REDEEMED, "true");
+        updateCouponUI();
+      }
+    }
+
+    function updateCouponUI() {
+      const isRedeemed = localStorage.getItem(STORAGE_KEY_REDEEMED) === "true";
+      const card = document.getElementById("coupon-card");
+      const statusText = document.getElementById("coupon-status-text");
+      const btn = document.getElementById("redeem-btn");
+
+      if (isRedeemed) {
+        card.classList.add("used");
+        statusText.innerHTML = "<strong>【引換済み】</strong><br>ノベルティのお渡しは完了しています。ご参加ありがとうございました！";
+        btn.textContent = "✅ 引換完了済み（お1人様1回限り）";
+        btn.disabled = true;
+      } else {
+        card.classList.remove("used");
+        statusText.innerHTML = "この画面をブースのスタッフにお見せください。<br>（※お1人様1回限り有効です）";
+        btn.textContent = "【スタッフ専用】引換済みにする";
+        btn.disabled = false;
+      }
+    }
+
+    function restartPractice() {
+      document.getElementById("result-screen").style.display = "none";
+      startQuiz();
+    }
+
+    function startClock() {
+      setInterval(() => {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString("ja-JP");
+        const clockEl = document.getElementById("live-clock");
+        if (clockEl) clockEl.textContent = `現在時刻: ${timeStr}`;
+      }, 1000);
+    }
+
+    let tapCount = 0;
+    function secretReset() {
+      tapCount++;
+      if (tapCount >= 5) {
+        if (confirm("【テスト用】このスマホのプレイ履歴・引換履歴をリセットしますか？")) {
+          localStorage.removeItem(STORAGE_KEY_PLAYED);
+          localStorage.removeItem(STORAGE_KEY_REDEEMED);
+          localStorage.removeItem(STORAGE_KEY_SCORE);
+          localStorage.removeItem(STORAGE_KEY_TOTAL);
+          location.reload();
+        }
+        tapCount = 0;
+      }
+    }
+  </script>
+</body>
+</html>
